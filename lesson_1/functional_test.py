@@ -1,29 +1,40 @@
 from selenium import webdriver
+import unittest
 
-browser = webdriver.Firefox()
+class NewVisitorTest(unittest.TestCase):
+    malac = "yoyoy"
 
-# USER visits homepage
-browser.get('http://localhost:8000')
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(3)
 
-# User sees "Django" in the page title
-assert 'Django' in browser.title
+    def tearDown(self):
+        self.browser.quit()
 
-# User invited to enter a to-do list item straight away
+    def test_can_start_a_list_and_retrieve_it_later(self):
+        # USER visits homepage
+        self.browser.get('http://localhost:8000')
 
-# User types "My to do" into the textbox
+        # User sees "Django" in the page title
+        self.assertIn('Dj6ango', self.browser.title)
 
-# When user hits ENTER, the page updates
-# "1: My to-do" as an item in the to-do list
+        # User invited to enter a to-do list item straight away
 
-# There is still a textbox inviting the user to add an other item.
-# User enters "My second to do"
+        # User types "My to do" into the textbox
 
-# Page updates again and shows both items
+        # When user hits ENTER, the page updates
+        # "1: My to-do" as an item in the to-do list
 
-# User notices that there is a unique url generated
+        # There is still a textbox inviting the user to add an other item.
+        # User enters "My second to do"
 
-# User visits that URL and sees that the enered itms are still in the list
+        # Page updates again and shows both items
 
-# User finishes
+        # User notices that there is a unique url generated
 
-browser.quit()
+        # User visits that URL and sees that the enered itms are still in the list
+
+        # User finishes
+
+if __name__ == '__main__':
+    unittest.main()
