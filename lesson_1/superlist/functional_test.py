@@ -1,6 +1,10 @@
+import unittest
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
+
+from django.http import HttpRequest
+
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -53,6 +57,11 @@ class NewVisitorTest(unittest.TestCase):
         # items are still in the list
 
         # User finishes
+
+    def test_home_page_can_test_POST_request(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = 'A new list item'
 
 
 if __name__ == '__main__':
