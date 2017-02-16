@@ -1,6 +1,7 @@
 from selenium import webdriver
 import unittest
 
+
 class NewVisitorTest(unittest.TestCase):
     malac = "yoyoy"
 
@@ -32,9 +33,11 @@ class NewVisitorTest(unittest.TestCase):
 
         # User notices that there is a unique url generated
 
-        # User visits that URL and sees that the enered itms are still in the list
+        # User visits that URL and sees that the enered
+        # items are still in the list
 
         # User finishes
+
 
 if __name__ == '__main__':
     unittest.main()
