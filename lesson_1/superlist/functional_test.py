@@ -3,7 +3,6 @@ import unittest
 
 
 class NewVisitorTest(unittest.TestCase):
-    malac = "yoyoy"
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -17,7 +16,7 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get('http://localhost:8000')
 
         # User sees "Django" in the page title
-        self.assertIn('Django', self.browser.title)
+        self.assertIn('To-Do lists', self.browser.title)
 
         # User invited to enter a to-do list item straight away
 

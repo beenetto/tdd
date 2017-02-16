@@ -1,0 +1,77 @@
+{
+    "meta": {
+        "name": "string",
+        "discription": "string"
+    },
+
+    "state": {
+        "type": "preset",
+        "id": "a15cbae7-63f6-4333-be30-da1e88e15f4b"
+    },
+
+    "elements": [
+        {"id": "65dc6730-f700-43e2-9d10-7e5421c454c2", "type": "page"},
+        {"id": "8893aef4-a7f7-4bef-93c3-a8db1e10fc0f", "type": "primitive"},
+        {"id": "2293c157-17bb-4c48-aafe-ffff1b24d6b5", "type": "primitive"},
+        {"id": "f8ce0bbd-ea3f-4856-bfe2-3a859c450d1a", "type": "text"},
+        {"id": "3e41c48d-8a62-4b84-906b-150b4dc45f2f", "type": "text"},
+        {"id": "4dc18e0e-ebd6-4f70-8bf7-815e2721eb6e", "type": "text"}
+    ],
+
+    "modifiers": [
+        {
+            "element_id": "8893aef4-a7f7-4bef-93c3-a8db1e10fc0f",
+            "state": {
+                "type": "parent",
+                "parent_id": "65dc6730-f700-43e2-9d10-7e5421c454c2"
+            }
+        },
+
+        {
+            "element_id": "2293c157-17bb-4c48-aafe-ffff1b24d6b5",
+            "type": "parent",
+            "state": {
+                "type": "parent",
+                "parent_id": "65dc6730-f700-43e2-9d10-7e5421c454c2"
+            }
+        },
+
+        {
+            "element_id": "8893aef4-a7f7-4bef-93c3-a8db1e10fc0f",
+            "state": {
+                "type": "transform",
+                "x": 100,
+                "y": 100,
+                "width": 200,
+                "height": 85
+            }
+        },
+
+        {
+            "element_id": "2293c157-17bb-4c48-aafe-ffff1b24d6b5",
+            "state": {
+                "type": "transform",
+                "x": 200,
+                "y": 200,
+                "width": 200,
+                "height": 85
+            }
+        },
+
+        {
+            "element_id": "f8ce0bbd-ea3f-4856-bfe2-3a859c450d1a",
+            "state": {
+                "type": "parent",
+                "parent_id": "8893aef4-a7f7-4bef-93c3-a8db1e10fc0f"
+            }
+        },
+
+        {
+            "element_id": "3e41c48d-8a62-4b84-906b-150b4dc45f2f",
+            "state": {
+                "type": "parent",
+                "parent_id": "8893aef4-a7f7-4bef-93c3-a8db1e10fc0f"
+            }
+        },
+    ]
+}
