@@ -18,7 +18,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # User sees "Django" in the page title
         self.assertIn('To-Do', self.browser.title)
-        header_text = self.browser.find_element_by_tag_name('h1').textbox
+        header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('To-Do', header_text)
 
         # User invited to enter a to-do list item straight away
@@ -37,7 +37,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_element_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: My to-do' for row in rows)
+            any(row.text == '1: My to-do' for row in rows),
+            'New to-do item did not appear in the table'
         )
 
         # There is still a textbox inviting the user to add an other item.
