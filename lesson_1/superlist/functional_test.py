@@ -6,7 +6,6 @@ from selenium.webdriver.common.keys import Keys
 from django.http import HttpRequest
 
 
-
 class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
@@ -39,7 +38,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
 
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_element_by_tag_name('tr')
+        rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
             any(row.text == '1: My to-do' for row in rows),
             'New to-do item did not appear in the table'
@@ -57,11 +56,6 @@ class NewVisitorTest(unittest.TestCase):
         # items are still in the list
 
         # User finishes
-
-    def test_home_page_can_test_POST_request(self):
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = 'A new list item'
 
 
 if __name__ == '__main__':
