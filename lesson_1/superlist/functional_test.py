@@ -15,6 +15,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_element_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # USER visits homepage
         self.browser.get('http://localhost:8000')
@@ -36,16 +41,16 @@ class NewVisitorTest(unittest.TestCase):
         # When user hits ENTER, the page updates
         # "1: My to-do" as an item in the to-do list
         inputbox.send_keys(Keys.ENTER)
-
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: My to-do' for row in rows),
-            'New to-do item did not appear in the table'
-        )
+        self.check_for_row_in_list_table('1: My to-do')
 
         # There is still a textbox inviting the user to add an other item.
         # User enters "My second to do"
+        inputbox.send_keys('My second to-do')
+        inputbox.send_keys(Keys.ENTER)
+
+        self.check_for_row_in_list_table('1: My to-do')
+        self.check_for_row_in_list_table('2: My to-do')
+
         self.fail('Finish the test!')
 
         # Page updates again and shows both items
