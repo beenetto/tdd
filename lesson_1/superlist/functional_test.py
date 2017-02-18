@@ -17,7 +17,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_element_by_tag_name('tr')
+        rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
@@ -45,15 +45,17 @@ class NewVisitorTest(unittest.TestCase):
 
         # There is still a textbox inviting the user to add an other item.
         # User enters "My second to do"
-        inputbox.send_keys('My second to-do')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('My to-do')
         inputbox.send_keys(Keys.ENTER)
-
+        
+        # Page updates again and shows both items
         self.check_for_row_in_list_table('1: My to-do')
         self.check_for_row_in_list_table('2: My to-do')
 
         self.fail('Finish the test!')
 
-        # Page updates again and shows both items
+
 
         # User notices that there is a unique url generated
 
