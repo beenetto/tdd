@@ -11,7 +11,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(5)
+        # self.browser.implicitly_wait(5)
 
     def tearDown(self):
         self.browser.quit()
@@ -49,6 +49,8 @@ class NewVisitorTest(LiveServerTestCase):
         # When user hits ENTER, the page updates
         # "1: My to-do" as an item in the to-do list
         inputbox.send_keys(Keys.ENTER)
+        user_list_url = self.browser.current_url
+        self.assertRegex(user_list_url, '/lists/.+')
 
         with self.wait_for_page_load(timeout=10):
             self.check_for_row_in_list_table('1: My to-do')
@@ -64,16 +66,35 @@ class NewVisitorTest(LiveServerTestCase):
             self.check_for_row_in_list_table('1: My to-do')
             self.check_for_row_in_list_table('2: My to-do')
 
-        self.fail('Finish the test!')
+        # A new user comes along
+        ## We use a new browser session to make sure that
+        ## no information leaks to other users
 
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
 
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('1: My to-do', page_text)
+        self.assertNotIn('2: My to-do', page_text)
 
-        # User notices that there is a unique url generated
+        # The new user starts a new list by entering a new item.
 
-        # User visits that URL and sees that the enered
-        # items are still in the list
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Buy something')
+        inputbox.send_keys(Keys.ENTER)
 
-        # User finishes
+        # New user gets his own URL
+        new_user_list_url = self.browser.current_url
+        self.assertRegex(new_user_list_url, '/lists/.+')
+        self.assertNotEqual(new_user_list_url, user_list_url)
+
+        # Check again that diferent user list are not mixed up
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('1: My to-do')
+        self.assertIn('Buy something')
+
+        # Satisfied
 
 
 if __name__ == '__main__':
