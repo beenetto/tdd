@@ -1,19 +1,27 @@
-import unittest
-
+from contextlib import contextmanager
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.expected_conditions import staleness_of
 
-from django.http import HttpRequest
+from django.test import LiveServerTestCase
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
+        self.browser.implicitly_wait(5)
 
     def tearDown(self):
         self.browser.quit()
+
+    @contextmanager
+    def wait_for_page_load(self, timeout=30):
+        old_page = self.browser.find_element_by_tag_name('html')
+        yield WebDriverWait(
+            self.browser, timeout).until(staleness_of(old_page))
+
 
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
@@ -22,7 +30,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # USER visits homepage
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # User sees "Django" in the page title
         self.assertIn('To-Do', self.browser.title)
@@ -41,17 +49,20 @@ class NewVisitorTest(unittest.TestCase):
         # When user hits ENTER, the page updates
         # "1: My to-do" as an item in the to-do list
         inputbox.send_keys(Keys.ENTER)
-        self.check_for_row_in_list_table('1: My to-do')
+
+        with self.wait_for_page_load(timeout=10):
+            self.check_for_row_in_list_table('1: My to-do')
 
         # There is still a textbox inviting the user to add an other item.
         # User enters "My second to do"
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('My to-do')
         inputbox.send_keys(Keys.ENTER)
-        
+
         # Page updates again and shows both items
-        self.check_for_row_in_list_table('1: My to-do')
-        self.check_for_row_in_list_table('2: My to-do')
+        with self.wait_for_page_load(timeout=10):
+            self.check_for_row_in_list_table('1: My to-do')
+            self.check_for_row_in_list_table('2: My to-do')
 
         self.fail('Finish the test!')
 
