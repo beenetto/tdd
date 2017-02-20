@@ -92,8 +92,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Check again that diferent user list are not mixed up
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('1: My to-do')
-        self.assertIn('Buy something')
+        self.assertNotIn('1: My to-do', page_text)
+        self.assertIn('Buy something', page_text)
 
         # Satisfied
 
