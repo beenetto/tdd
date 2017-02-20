@@ -1,3 +1,5 @@
+from time import sleep
+
 from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 from django.test import TestCase
@@ -5,6 +7,11 @@ from django.http import HttpRequest
 
 from lists.models import Item, List
 from lists.views import home_page
+
+
+message_interval = 1 # seconds
+not_long_enough = 0.7 # seconds
+long_enough = 1.3 # seconds
 
 
 class HomepageTest(TestCase):
@@ -23,7 +30,7 @@ class HomepageTest(TestCase):
 class NewListTest(TestCase):
 
     def test_saving_a_POST_request(self):
-        self.client.post(
+        response = self.client.post(
             'list/new',
             data={'item_text': 'A new list item'}
         )
