@@ -49,11 +49,11 @@ class NewVisitorTest(LiveServerTestCase):
         # When user hits ENTER, the page updates
         # "1: My to-do" as an item in the to-do list
         inputbox.send_keys(Keys.ENTER)
-        user_list_url = self.browser.current_url
-        self.assertRegex(user_list_url, '/lists/.+')
 
         with self.wait_for_page_load(timeout=10):
             self.check_for_row_in_list_table('1: My to-do')
+            user_list_url = self.browser.current_url
+            self.assertRegex(user_list_url, '/lists/.+')
 
         # There is still a textbox inviting the user to add an other item.
         # User enters "My second to do"
@@ -85,9 +85,10 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # New user gets his own URL
-        new_user_list_url = self.browser.current_url
-        self.assertRegex(new_user_list_url, '/lists/.+')
-        self.assertNotEqual(new_user_list_url, user_list_url)
+        with self.wait_for_page_load(timeout=10):
+            new_user_list_url = self.browser.current_url
+            self.assertRegex(new_user_list_url, '/lists/.+')
+            self.assertNotEqual(new_user_list_url, user_list_url)
 
         # Check again that diferent user list are not mixed up
         page_text = self.browser.find_element_by_tag_name('body').text
