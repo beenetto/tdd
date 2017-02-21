@@ -31,7 +31,7 @@ class NewListTest(TestCase):
 
     def test_saving_a_POST_request(self):
         response = self.client.post(
-            'list/new',
+            '/lists/new',
             data={'item_text': 'A new list item'}
         )
         self.assertEqual(Item.objects.count(), 1)
