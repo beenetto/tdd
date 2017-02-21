@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import staleness_of
@@ -97,6 +98,15 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Satisfied
 
+    def test_layout_and_styling(self):
+        # User goes to the homepage
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
 
-if __name__ == '__main__':
-    unittest.main()
+        # User notices the input box is nicely aligned
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=5
+        )
