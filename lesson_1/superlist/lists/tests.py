@@ -1,5 +1,3 @@
-from time import sleep
-
 from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 from django.test import TestCase
@@ -7,11 +5,6 @@ from django.http import HttpRequest
 
 from lists.models import Item, List
 from lists.views import home_page
-
-
-message_interval = 1 # seconds
-not_long_enough = 0.7 # seconds
-long_enough = 1.3 # seconds
 
 
 class HomepageTest(TestCase):
@@ -30,7 +23,7 @@ class HomepageTest(TestCase):
 class NewListTest(TestCase):
 
     def test_saving_a_POST_request(self):
-        response = self.client.post(
+        self.client.post(
             '/lists/new',
             data={'item_text': 'A new list item'}
         )
@@ -49,7 +42,8 @@ class NewListTest(TestCase):
             response, '/lists/%d/' % (new_list.id))
 
     def test_can_save_a_POST_request_to_an_existing_list(self):
-        other_list = List.objects.create()
+        # other_list
+        List.objects.create()
         correct_list = List.objects.create()
 
         self.client.post(
@@ -62,7 +56,8 @@ class NewListTest(TestCase):
         self.assertEqual(new_item.list, correct_list)
 
     def test_redirects_to_list_view(self):
-        other_list = List.objects.create()
+        # other_list
+        List.objects.create()
         correct_list = List.objects.create()
 
         response = self.client.post(
@@ -74,10 +69,12 @@ class NewListTest(TestCase):
             response, '/lists/%d/' % (correct_list.id,))
 
     def test_passes_correct_list_to_template(self):
-        other_list = List.objects.create()
+        # other_list
+        List.objects.create()
         correct_list = List.objects.create()
         response = self.client.get('/lists/%d/' % (correct_list.id,))
         self.assertEqual(response.context['list'], correct_list)
+
 
 class ListViewTest(TestCase):
 
