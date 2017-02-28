@@ -24,7 +24,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
     @classmethod
     def tearDownClass(cls):
         if cls.server_url == cls.live_server_url:
-            super().tearDownClass() 
+            super().tearDownClass()
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -47,7 +47,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # USER visits homepage
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
 
         # User sees "Django" in the page title
         self.assertIn('To-Do', self.browser.title)
@@ -90,7 +90,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('1: My to-do', page_text)
         self.assertNotIn('2: My to-do', page_text)
@@ -116,7 +116,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def test_layout_and_styling(self):
         # User goes to the homepage
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
         self.browser.set_window_size(1024, 768)
 
         # User notices the input box is nicely aligned
